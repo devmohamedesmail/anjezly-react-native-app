@@ -1,0 +1,64 @@
+{
+  "nav": {
+    "home": "الرئيسية",
+    "explore": "استكشاف", 
+    "projects": "المشاريع",
+    "messages": "الرسائل",
+    "profile": "الملف الشخصي"
+  },
+  "home": {
+    "header": {
+      "greeting": "مرحبا، جون!",
+      "subtitle": "ابحث عن المستقل المثالي لمشروعك"
+    },
+    "search": {
+      "placeholder": "البحث عن الخدمات أو المستقلين..."
+    }
+  },
+  "profile": {
+    "title": "الملف الشخصي",
+    "subtitle": "إدارة حسابك",
+    "jobTitle": "مطور Full Stack",
+    "account": "الحساب",
+    "status": {
+      "available": "متاح للعمل"
+    },
+    "stats": {
+      "projectsCompleted": "المشاريع المكتملة",
+      "clientRating": "تقييم العملاء", 
+      "totalEarned": "إجمالي الأرباح",
+      "responseTime": "وقت الاستجابة"
+    },
+    "quickActions": {
+      "title": "الإجراءات السريعة",
+      "addSkill": "إضافة مهارة",
+      "viewResume": "عرض السيرة الذاتية",
+      "achievements": "الإنجازات"
+    },
+    "menu": {
+      "editProfile": "تعديل الملف الشخصي",
+      "editProfileDesc": "تحديث معلوماتك الشخصية",
+      "portfolio": "المعرض",
+      "portfolioDesc": "عرض أفضل أعمالك",
+      "paymentMethods": "طرق الدفع",
+      "paymentMethodsDesc": "إدارة خيارات الدفع",
+      "reviewsRatings": "المراجعات والتقييمات", 
+      "reviewsRatingsDesc": "عرض تعليقات العملاء",
+      "language": "اللغة",
+      "languageDesc": "تغيير لغة التطبيق",
+      "settings": "الإعدادات",
+      "settingsDesc": "تفضيلات التطبيق والخصوصية",
+      "helpSupport": "المساعدة والدعم",
+      "helpSupportDesc": "احصل على المساعدة عند الحاجة",
+      "privacyPolicy": "سياسة الخصوصية",
+      "privacyPolicyDesc": "اقرأ شروط الخصوصية",
+      "signOut": "تسجيل الخروج",
+      "signOutDesc": "تسجيل الخروج من حسابك"
+    }
+  },
+  "language": {
+    "english": "English",
+    "arabic": "العربية",
+    "change": "تغيير اللغة"
+  }
+}

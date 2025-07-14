@@ -1,0 +1,64 @@
+{
+  "nav": {
+    "home": "Home",
+    "explore": "Explore", 
+    "projects": "Projects",
+    "messages": "Messages",
+    "profile": "Profile"
+  },
+  "home": {
+    "header": {
+      "greeting": "Hello, John!",
+      "subtitle": "Find the perfect freelancer for your project"
+    },
+    "search": {
+      "placeholder": "Search for services or freelancers..."
+    }
+  },
+  "profile": {
+    "title": "Profile",
+    "subtitle": "Manage your account",
+    "jobTitle": "Full Stack Developer",
+    "account": "Account",
+    "status": {
+      "available": "Available for work"
+    },
+    "stats": {
+      "projectsCompleted": "Projects Completed",
+      "clientRating": "Client Rating", 
+      "totalEarned": "Total Earned",
+      "responseTime": "Response Time"
+    },
+    "quickActions": {
+      "title": "Quick Actions",
+      "addSkill": "Add Skill",
+      "viewResume": "View Resume",
+      "achievements": "Achievements"
+    },
+    "menu": {
+      "editProfile": "Edit Profile",
+      "editProfileDesc": "Update your personal information",
+      "portfolio": "Portfolio",
+      "portfolioDesc": "Showcase your best work",
+      "paymentMethods": "Payment Methods",
+      "paymentMethodsDesc": "Manage your payment options",
+      "reviewsRatings": "Reviews & Ratings", 
+      "reviewsRatingsDesc": "View client feedback",
+      "language": "Language",
+      "languageDesc": "Change app language",
+      "settings": "Settings",
+      "settingsDesc": "App preferences and privacy",
+      "helpSupport": "Help & Support",
+      "helpSupportDesc": "Get help when you need it",
+      "privacyPolicy": "Privacy Policy",
+      "privacyPolicyDesc": "Read our privacy terms",
+      "signOut": "Sign Out",
+      "signOutDesc": "Log out of your account"
+    }
+  },
+  "language": {
+    "english": "English",
+    "arabic": "العربية",
+    "change": "Change Language"
+  }
+}

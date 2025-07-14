@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View, ScrollView, TextInput, TouchableOpacity, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FontAwesome, MaterialIcons, Ionicons } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 import BottomNavigation from '@/components/BottomNavigation';
 import Categories_Section from '@/components/categories_section';
 import '../styles/global.css';
@@ -43,6 +44,8 @@ const featuredFreelancers = [
 ];
 
 export default function Home() {
+  const { t } = useTranslation();
+  
   return (
     <SafeAreaView className="flex-1 bg-gray-50">
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>

@@ -2,38 +2,41 @@ import React from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import { useTranslation } from 'react-i18next';
 
 interface BottomNavigationProps {
   activeTab: 'home' | 'explore' | 'projects' | 'messages' | 'profile';
 }
 
 export default function BottomNavigation({ activeTab }: BottomNavigationProps) {
+  const { t } = useTranslation();
+  
   const handleNavigation = (route: string) => {
     switch (route) {
       case 'home':
-        router.push('/(tabs)');
+        router.push('/');
         break;
       case 'explore':
         router.push('/(tabs)/two');
         break;
       case 'projects':
-        // TODO: Implement projects screen
+        router.push('/(tabs)/projects');
         break;
       case 'messages':
-        // TODO: Implement messages screen
+        router.push('/(tabs)/messages');
         break;
       case 'profile':
-        // TODO: Implement profile screen
+        router.push('/(tabs)/profile');
         break;
     }
   };
 
   const navigationItems = [
-    { key: 'home', icon: 'home', label: 'Home' },
-    { key: 'explore', icon: 'search', label: 'Explore' },
-    { key: 'projects', icon: 'briefcase-outline', label: 'Projects' },
-    { key: 'messages', icon: 'chatbubble-outline', label: 'Messages' },
-    { key: 'profile', icon: 'person-outline', label: 'Profile' },
+    { key: 'home', icon: 'home', label: t('nav.home') },
+    { key: 'explore', icon: 'search', label: t('nav.explore') },
+    { key: 'projects', icon: 'briefcase-outline', label: t('nav.projects') },
+    { key: 'messages', icon: 'chatbubble-outline', label: t('nav.messages') },
+    { key: 'profile', icon: 'person-outline', label: t('nav.profile') },
   ];
 
   return (

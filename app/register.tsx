@@ -1,20 +1,14 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Alert,
-  ActivityIndicator,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-} from 'react-native';
+import {View,Text,TextInput,TouchableOpacity,Alert,ActivityIndicator,KeyboardAvoidingView,Platform,ScrollView,} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useAuth } from '@/contexts/auth_context';
 import '../styles/global.css';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+
+
 
 export default function RegisterScreen() {
   const { register, isLoading, error, clearError } = useAuth();
@@ -101,6 +95,40 @@ export default function RegisterScreen() {
       setFieldErrors(prev => ({ ...prev, [field]: '' }));
     }
   };
+
+
+
+
+
+const formik = useFormik({
+    initialValues: {
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      role: 'client',
+    },
+    validationSchema: Yup.object({
+      name: Yup.string().required('Name is required').min(2, 'Name must be at least 2 characters'),
+      email: Yup.string().email('Invalid email address').required('Email is required'),
+      password: Yup.string().required('Password is required').min(6, 'Password must be at least 6 characters'),
+      confirmPassword: Yup.string()
+        .oneOf([Yup.ref('password'), null], 'Passwords must match')
+        .required('Please confirm your password'),
+    }),
+    onSubmit: handleRegister,
+  });
+
+
+
+
+
+
+
+
+
+
+
 
   return (
     <SafeAreaView className="flex-1 bg-white">

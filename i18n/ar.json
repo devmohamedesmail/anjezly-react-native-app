@@ -46,6 +46,8 @@
       "reviewsRatingsDesc": "عرض تعليقات العملاء",
       "language": "اللغة",
       "languageDesc": "تغيير لغة التطبيق",
+      "theme": "المظهر",
+      "themeDesc": "التبديل بين الوضع الفاتح والداكن",
       "settings": "الإعدادات",
       "settingsDesc": "تفضيلات التطبيق والخصوصية",
       "helpSupport": "المساعدة والدعم",
@@ -55,6 +57,13 @@
       "signOut": "تسجيل الخروج",
       "signOutDesc": "تسجيل الخروج من حسابك"
     }
+  },
+  "theme": {
+    "title": "المظهر",
+    "light": "الوضع الفاتح",
+    "dark": "الوضع الداكن",
+    "system": "النظام",
+    "systemDesc": "يطابق إعدادات جهازك"
   },
   "language": {
     "english": "English",

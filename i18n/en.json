@@ -46,6 +46,8 @@
       "reviewsRatingsDesc": "View client feedback",
       "language": "Language",
       "languageDesc": "Change app language",
+      "theme": "Theme",
+      "themeDesc": "Switch between light and dark mode",
       "settings": "Settings",
       "settingsDesc": "App preferences and privacy",
       "helpSupport": "Help & Support",
@@ -55,6 +57,13 @@
       "signOut": "Sign Out",
       "signOutDesc": "Log out of your account"
     }
+  },
+  "theme": {
+    "title": "Appearance",
+    "light": "Light Mode",
+    "dark": "Dark Mode",
+    "system": "System",
+    "systemDesc": "Match your device settings"
   },
   "language": {
     "english": "English",

@@ -1,0 +1,4 @@
+export const config = {
+    url:"https://anjezly.onrender.com/api",
+    token:"81e5b490db97fbc5d33e77d54b0026e05e12d3c2a1e3a7c93a9e82643eacbc5ba0885a9b33faf4482ce8f7cb8c4a32fe4d7abaf5badc8c8adb6e9041c966730078c2ae6f7048a58924518d12b5a08e3fc45ab5cc00a14cf1a4bbdf99bd65286a4d9d77ff087dd5d0716fd631899fc5783f92ecafa2dfe533b695cff6dd432996"
+}

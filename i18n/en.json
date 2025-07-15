@@ -9,7 +9,12 @@
   "home": {
     "header": {
       "greeting": "Hello, John!",
-      "subtitle": "Find the perfect freelancer for your project"
+      "subtitle": "Find the perfect freelancer for your project",
+      "welcomeBack": "Welcome back",
+      "user": "User",
+      "readyToWork": "Ready to find your next great project?",
+      "discover": "Discover Amazing Talent",
+      "loginToStart": "Login to start your journey"
     },
     "search": {
       "placeholder": "Search for services or freelancers..."
@@ -56,6 +61,33 @@
       "privacyPolicyDesc": "Read our privacy terms",
       "signOut": "Sign Out",
       "signOutDesc": "Log out of your account"
+    },
+    "freelancer": {
+      "about": "About",
+      "skills": "Skills",
+      "languages": "Languages",
+      "rating": "Rating",
+      "projects": "Projects",
+      "hourlyRate": "Per Hour",
+      "responseTime": "Response",
+      "contact": "Contact",
+      "message": "Message",
+      "overview": "Overview",
+      "portfolio": "Portfolio",
+      "reviews": "Reviews",
+      "anonymousClient": "Anonymous Client",
+      "noName": "Unknown User",
+      "freelancer": "Freelancer",
+      "noLocation": "Location not specified",
+      "noDescription": "No description available",
+      "noSkills": "No skills listed",
+      "noLanguages": "No languages specified",
+      "untitledProject": "Untitled Project",
+      "general": "General",
+      "noPortfolio": "No portfolio items available",
+      "noReviewText": "No review text available",
+      "noReviews": "No reviews yet",
+      "notFound": "Freelancer not found"
     }
   },
   "theme": {
@@ -69,5 +101,256 @@
     "english": "English",
     "arabic": "العربية",
     "change": "Change Language"
+  },
+  "register": {
+    "title": "Create Account",
+    "subtitle": "Join our freelancer community",
+    "form": {
+      "name": "Full Name",
+      "namePlaceholder": "Enter your full name",
+      "email": "Email Address", 
+      "emailPlaceholder": "Enter your email",
+      "password": "Password",
+      "passwordPlaceholder": "Create a password",
+      "confirmPassword": "Confirm Password",
+      "confirmPasswordPlaceholder": "Confirm your password",
+      "roleLabel": "I want to",
+      "roleClient": "Hire Freelancers",
+      "roleFreelancer": "Work as Freelancer"
+    },
+    "createAccount": "Create Account",
+    "haveAccount": "Already have an account? ",
+    "signIn": "Sign In",
+    "terms": {
+      "byCreating": "By creating an account, you agree to our",
+      "termsOfService": "Terms of Service",
+      "and": "and",
+      "privacyPolicy": "Privacy Policy"
+    },
+    "success": {
+      "title": "Success",
+      "message": "Account created successfully!"
+    },
+    "error": {
+      "title": "Registration Failed",
+      "message": "Failed to create account. Please try again."
+    }
+  },
+  "login": {
+    "title": "Welcome Back",
+    "subtitle": "Sign in to your account",
+    "form": {
+      "email": "Email Address",
+      "emailPlaceholder": "Enter your email",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password"
+    },
+    "forgotPassword": "Forgot Password?",
+    "signIn": "Sign In",
+    "divider": "or",
+    "social": {
+      "google": "Continue with Google",
+      "apple": "Continue with Apple"
+    },
+    "noAccount": "Don't have an account? ",
+    "signUp": "Sign Up",
+    "error": {
+      "title": "Login Failed",
+      "message": "Invalid email or password. Please try again."
+    }
+  },
+  "addTask": {
+    "title": "Post New Task",
+    "form": {
+      "title": "Task Title",
+      "titlePlaceholder": "Enter task title",
+      "description": "Description",
+      "descriptionPlaceholder": "Describe your task in detail",
+      "type": "Work Type",
+      "selectType": "Choose work type",
+      "location": "Location",
+      "locationPlaceholder": "Enter location or 'Remote'",
+      "budget": "Budget (USD)",
+      "budgetPlaceholder": "Enter your budget",
+      "duration": "Duration",
+      "durationPlaceholder": "e.g., 1 week, 2 months"
+    },
+    "postTask": "Post Task",
+    "posting": "Posting...",
+    "success": {
+      "title": "Success",
+      "message": "Task posted successfully!"
+    },
+    "error": {
+      "title": "Error",
+      "message": "Failed to post task. Please try again."
+    }
+  },
+  "validation": {
+    "nameRequired": "Name is required",
+    "nameMin": "Name must be at least 2 characters",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Invalid email format",
+    "passwordRequired": "Password is required",
+    "passwordMin": "Password must be at least 6 characters",
+    "confirmPasswordRequired": "Please confirm your password",
+    "passwordMatch": "Passwords do not match",
+    "roleRequired": "Please select a role",
+    "titleRequired": "Task title is required",
+    "titleMin": "Title must be at least 3 characters",
+    "descriptionRequired": "Description is required",
+    "descriptionMin": "Description must be at least 10 characters",
+    "typeRequired": "Please select work type",
+    "locationRequired": "Location is required",
+    "budgetRequired": "Budget is required",
+    "budgetMin": "Budget must be greater than 0",
+    "durationRequired": "Duration is required"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Mark All Read",
+    "unreadCount": "{{count}} unread notifications",
+    "empty": {
+      "title": "No Notifications",
+      "message": "You're all caught up! Notifications will appear here when you receive them."
+    },
+    "task": {
+      "title": "New Task Proposal",
+      "message": "You have received a new proposal for your web development task."
+    },
+    "message": {
+      "title": "New Message",
+      "message": "Sarah Johnson sent you a message about the mobile app project."
+    },
+    "payment": {
+      "title": "Payment Received",
+      "message": "You have received $500 payment for the completed project."
+    },
+    "system": {
+      "title": "System Update",
+      "message": "The app has been updated with new features and improvements."
+    }
+  },
+  "tasks": {
+    "title": "Recent Projects",
+    "viewAll": "View All",
+    "budget": "Budget",
+    "type": {
+      "remote": "Remote",
+      "onSite": "On-site"
+    },
+    "empty": {
+      "title": "No tasks available",
+      "message": "Check back later for new opportunities"
+    },
+    "error": {
+      "fetchFailed": "Failed to load tasks",
+      "tryAgain": "Try Again"
+    }
+  },
+  "freelancers": {
+    "title": "Top Freelancers",
+    "seeAll": "See All",
+    "empty": {
+      "title": "No freelancers available",
+      "message": "Check back later for new talent"
+    },
+    "error": {
+      "fetchFailed": "Failed to load freelancers",
+      "tryAgain": "Try Again"
+    }
+  },
+  "explore": {
+    "title": "Explore Freelancers",
+    "searchPlaceholder": "Search freelancers by skill or name...",
+    "categories": {
+      "all": "All",
+      "design": "Design",
+      "development": "Development",
+      "writing": "Writing",
+      "marketing": "Marketing",
+      "video": "Video",
+      "music": "Music",
+      "translation": "Translation"
+    },
+    "freelancer": "Freelancer",
+    "reviews": "reviews",
+    "verified": "Verified",
+    "unverified": "Unverified",
+    "type": {
+      "assistant": "Assistant",
+      "client": "Client"
+    },
+    "contact": "Contact",
+    "viewProfile": "View Profile",
+    "empty": {
+      "title": "No freelancers found",
+      "message": "Try adjusting your search criteria"
+    }
+  },
+  "categories": {
+    "title": "What do you need help with?",
+    "noCategories": "No categories available",
+    "errorFetching": "Failed to load categories",
+    "retry": "Retry"
+  },
+  "freelancerItem": {
+    "hourlyRate": "25/hr",
+    "new": "New",
+    "available": "Available",
+    "contactForDetails": "Contact for details",
+    "review": "review",
+    "reviews": "reviews",
+    "contactNow": "Contact Now",
+    "skills": {
+      "virtualAssistant": "Virtual Assistant",
+      "dataEntry": "Data Entry",
+      "adminSupport": "Admin Support",
+      "react": "React",
+      "nodejs": "Node.js",
+      "typescript": "TypeScript",
+      "figma": "Figma",
+      "photoshop": "Photoshop",
+      "uiux": "UI/UX",
+      "contentWriting": "Content Writing",
+      "seo": "SEO",
+      "copywriting": "Copywriting",
+      "generalServices": "General Services"
+    }
+  },
+  "chat": {
+    "online": "Online",
+    "lastSeen": "Last seen at",
+    "placeholder": "Type a message...",
+    "welcomeMessage": "Hello! I'm excited to work with you. How can I help you today?",
+    "userResponse": "Hi! I'm interested in your services. Can we discuss my project?",
+    "autoReply": "Thank you for reaching out! I'd be happy to discuss your project. What kind of work are you looking for?",
+    "freelancerId": "Freelancer ID",
+    "userId": "User ID"
+  },
+  "messages": {
+    "title": "Messages",
+    "unreadMessages": "unread messages",
+    "searchPlaceholder": "Search conversations...",
+    "filters": {
+      "all": "All",
+      "unread": "Unread",
+      "starred": "Starred"
+    },
+    "empty": {
+      "title": "No conversations found",
+      "hint": "Start a new conversation",
+      "searchHint": "Try a different search term"
+    },
+    "actions": {
+      "call": "Call",
+      "video": "Video",
+      "reply": "Reply"
+    }
+  },
+  "common": {
+    "ok": "OK",
+    "loading": "Loading...",
+    "goBack": "Go Back"
   }
 }

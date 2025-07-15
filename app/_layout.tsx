@@ -10,8 +10,8 @@ import '../i18n/i18n'; // Initialize i18n
 import { LanguageProvider } from '@/contexts/LanguageContext';
 import { AuthProvider } from '@/contexts/auth_context';
 import { ThemeProvider } from '@/contexts/ThemeContext';
-
 import { useColorScheme } from '@/components/useColorScheme';
+import ToastManager, { Toast } from 'toastify-react-native'
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -63,8 +63,12 @@ function RootLayoutNav() {
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
               <Stack.Screen name="login" options={{ headerShown: false }} />
               <Stack.Screen name="register" options={{ headerShown: false }} />
+              <Stack.Screen name="notifications" options={{ headerShown: false }} />
+              <Stack.Screen name="freelancer-profile" options={{ headerShown: false }} />
+              <Stack.Screen name="chat" options={{ headerShown: false }} />
               <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
             </Stack>
+             <ToastManager />
           </NavigationThemeProvider>
         </ThemeProvider>
       </LanguageProvider>

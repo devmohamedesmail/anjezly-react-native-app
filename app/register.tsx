@@ -1,351 +1,242 @@
-import React, { useState } from 'react';
-import {View,Text,TextInput,TouchableOpacity,Alert,ActivityIndicator,KeyboardAvoidingView,Platform,ScrollView,} from 'react-native';
+import React from 'react';
+import { View, Text, TouchableOpacity, Alert, ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useAuth } from '@/contexts/auth_context';
+import { useTheme } from '@/contexts/ThemeContext';
+import { useTranslation } from 'react-i18next';
 import '../styles/global.css';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import Custom_Input from '@/components/custom/custom_input';
+import { Toast } from 'toastify-react-native';
 
 
 
 export default function RegisterScreen() {
-  const { register, isLoading, error, clearError } = useAuth();
-  const [credentials, setCredentials] = useState({
-    name: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    role: 'client' as 'freelancer' | 'client',
-  });
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+    const { handle_register, isLoading } = useAuth();
+    const { isDark } = useTheme();
+    const { t } = useTranslation();
 
-  const validateForm = () => {
-    const errors: Record<string, string> = {};
-    
-    if (!credentials.name.trim()) {
-      errors.name = 'Name is required';
-    } else if (credentials.name.length < 2) {
-      errors.name = 'Name must be at least 2 characters';
-    }
-    
-    if (!credentials.email.trim()) {
-      errors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(credentials.email)) {
-      errors.email = 'Please enter a valid email';
-    }
-    
-    if (!credentials.password.trim()) {
-      errors.password = 'Password is required';
-    } else if (credentials.password.length < 6) {
-      errors.password = 'Password must be at least 6 characters';
-    }
-    
-    if (!credentials.confirmPassword.trim()) {
-      errors.confirmPassword = 'Please confirm your password';
-    } else if (credentials.password !== credentials.confirmPassword) {
-      errors.confirmPassword = 'Passwords do not match';
-    }
-    
-    setFieldErrors(errors);
-    return Object.keys(errors).length === 0;
-  };
-
-  const handleRegister = async () => {
-    clearError();
-    
-    if (!validateForm()) {
-      return;
-    }
-
-    try {
-      const result = await register(credentials);
-      
-      if (result.success) {
-        Alert.alert(
-          'Registration Successful!',
-          'Welcome to Anjezly! You can now start using the app.',
-          [{ text: 'OK', onPress: () => router.replace('/') }]
-        );
-      } else {
-        Alert.alert('Registration Failed', result.message || 'Please check your information');
-        
-        // Handle field-specific errors
-        if (result.errors) {
-          const formattedErrors: Record<string, string> = {};
-          Object.entries(result.errors).forEach(([key, messages]) => {
-            formattedErrors[key] = Array.isArray(messages) ? messages[0] : messages;
-          });
-          setFieldErrors(formattedErrors);
-        }
-      }
-    } catch (error) {
-      Alert.alert('Error', 'An unexpected error occurred');
-    }
-  };
-
-  const handleInputChange = (field: string, value: string) => {
-    setCredentials(prev => ({ ...prev, [field]: value }));
-    
-    // Clear field error when user starts typing
-    if (fieldErrors[field]) {
-      setFieldErrors(prev => ({ ...prev, [field]: '' }));
-    }
-  };
-
-
-
-
-
-const formik = useFormik({
-    initialValues: {
-      name: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-      role: 'client',
-    },
-    validationSchema: Yup.object({
-      name: Yup.string().required('Name is required').min(2, 'Name must be at least 2 characters'),
-      email: Yup.string().email('Invalid email address').required('Email is required'),
-      password: Yup.string().required('Password is required').min(6, 'Password must be at least 6 characters'),
-      confirmPassword: Yup.string()
-        .oneOf([Yup.ref('password'), null], 'Passwords must match')
-        .required('Please confirm your password'),
-    }),
-    onSubmit: handleRegister,
-  });
-
-
-
-
-
-
-
-
-
-
-
-
-  return (
-    <SafeAreaView className="flex-1 bg-white">
-      <KeyboardAvoidingView 
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        className="flex-1"
-      >
-        <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
-          {/* Header */}
-          <View className="px-6 pt-8 pb-4">
-            <TouchableOpacity 
-              onPress={() => router.back()}
-              className="w-10 h-10 rounded-full bg-gray-100 items-center justify-center mb-6"
-            >
-              <Ionicons name="arrow-back" size={20} color="#374151" />
-            </TouchableOpacity>
+    const formik = useFormik({
+        initialValues: {
+            name: '',
+            email: '',
+            password: '',
+           
+        },
+        validationSchema: Yup.object({
+            name: Yup.string().required(t('validation.nameRequired')).min(2, t('validation.nameMinLength')),
+            email: Yup.string().email(t('validation.emailInvalid')).required(t('validation.emailRequired')),
+            password: Yup.string().required(t('validation.passwordRequired')).min(6, t('validation.passwordMinLength')),
             
-            <Text className="text-3xl font-bold text-gray-900 mb-2">Create Account</Text>
-            <Text className="text-gray-600 text-lg">Join Anjezly and start your journey</Text>
-          </View>
+        }),
+        onSubmit: async (values) => {
+            try {
+                const result = await handle_register(
+                    values.name,
+                    values.email, 
+                    values.password,
+                  
+                );
 
-          {/* Form */}
-          <View className="px-6 mt-4">
-            {/* Name Input */}
-            <View className="mb-4">
-              <Text className="text-gray-700 font-medium mb-2">Full Name</Text>
-              <View className="relative">
-                <TextInput
-                  value={credentials.name}
-                  onChangeText={(value) => handleInputChange('name', value)}
-                  placeholder="Enter your full name"
-                  autoCapitalize="words"
-                  autoComplete="name"
-                  className={`w-full px-4 py-4 border rounded-xl text-gray-900 ${
-                    fieldErrors.name ? 'border-red-500' : 'border-gray-300'
-                  }`}
-                  placeholderTextColor="#9CA3AF"
-                />
-                <View className="absolute right-4 top-4">
-                  <Ionicons name="person-outline" size={20} color="#9CA3AF" />
-                </View>
-              </View>
-              {fieldErrors.name ? (
-                <Text className="text-red-500 text-sm mt-1">{fieldErrors.name}</Text>
-              ) : null}
-            </View>
+                if (result.success) {
+                    
+                    Toast.show({
+                        text1: t('register.success.title'),
+                        text2: t('register.success.message'),
+                        type: 'success',
+                        visibilityTime: 4000,
+                    })
+                } else {
+                    Toast.show({
+                        text1: t('register.error.title'),
+                        text2: t('register.error.message'),
+                        type: 'error',
+                        visibilityTime: 4000,
+                    })
+                   
+                }
+            } catch (error) {
+               Toast.show({
+                        text1: t('register.error.title'),
+                        text2: t('register.error.message'),
+                        type: 'error',
+                        visibilityTime: 4000,
+                    })
+            }
+        },
+    });
 
-            {/* Email Input */}
-            <View className="mb-4">
-              <Text className="text-gray-700 font-medium mb-2">Email Address</Text>
-              <View className="relative">
-                <TextInput
-                  value={credentials.email}
-                  onChangeText={(value) => handleInputChange('email', value)}
-                  placeholder="Enter your email"
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                  autoComplete="email"
-                  className={`w-full px-4 py-4 border rounded-xl text-gray-900 ${
-                    fieldErrors.email ? 'border-red-500' : 'border-gray-300'
-                  }`}
-                  placeholderTextColor="#9CA3AF"
-                />
-                <View className="absolute right-4 top-4">
-                  <Ionicons name="mail-outline" size={20} color="#9CA3AF" />
-                </View>
-              </View>
-              {fieldErrors.email ? (
-                <Text className="text-red-500 text-sm mt-1">{fieldErrors.email}</Text>
-              ) : null}
-            </View>
 
-            {/* Role Selection */}
-            <View className="mb-4">
-              <Text className="text-gray-700 font-medium mb-2">I want to</Text>
-              <View className="flex-row space-x-3">
-                <TouchableOpacity
-                  onPress={() => handleInputChange('role', 'client')}
-                  className={`flex-1 p-4 border rounded-xl items-center ${
-                    credentials.role === 'client' 
-                      ? 'border-blue-500 bg-blue-50' 
-                      : 'border-gray-300'
-                  }`}
-                >
-                  <Ionicons 
-                    name="briefcase-outline" 
-                    size={24} 
-                    color={credentials.role === 'client' ? '#3B82F6' : '#9CA3AF'} 
-                  />
-                  <Text className={`mt-2 font-medium ${
-                    credentials.role === 'client' ? 'text-blue-600' : 'text-gray-600'
-                  }`}>
-                    Hire Freelancers
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => handleInputChange('role', 'freelancer')}
-                  className={`flex-1 p-4 border rounded-xl items-center ${
-                    credentials.role === 'freelancer' 
-                      ? 'border-blue-500 bg-blue-50' 
-                      : 'border-gray-300'
-                  }`}
-                >
-                  <Ionicons 
-                    name="laptop-outline" 
-                    size={24} 
-                    color={credentials.role === 'freelancer' ? '#3B82F6' : '#9CA3AF'} 
-                  />
-                  <Text className={`mt-2 font-medium ${
-                    credentials.role === 'freelancer' ? 'text-blue-600' : 'text-gray-600'
-                  }`}>
-                    Work as Freelancer
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
 
-            {/* Password Input */}
-            <View className="mb-4">
-              <Text className="text-gray-700 font-medium mb-2">Password</Text>
-              <View className="relative">
-                <TextInput
-                  value={credentials.password}
-                  onChangeText={(value) => handleInputChange('password', value)}
-                  placeholder="Enter your password"
-                  secureTextEntry={!showPassword}
-                  autoComplete="password"
-                  className={`w-full px-4 py-4 border rounded-xl text-gray-900 pr-12 ${
-                    fieldErrors.password ? 'border-red-500' : 'border-gray-300'
-                  }`}
-                  placeholderTextColor="#9CA3AF"
-                />
-                <TouchableOpacity
-                  onPress={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-4"
-                >
-                  <Ionicons 
-                    name={showPassword ? 'eye-off-outline' : 'eye-outline'} 
-                    size={20} 
-                    color="#9CA3AF" 
-                  />
-                </TouchableOpacity>
-              </View>
-              {fieldErrors.password ? (
-                <Text className="text-red-500 text-sm mt-1">{fieldErrors.password}</Text>
-              ) : null}
-            </View>
 
-            {/* Confirm Password Input */}
-            <View className="mb-6">
-              <Text className="text-gray-700 font-medium mb-2">Confirm Password</Text>
-              <View className="relative">
-                <TextInput
-                  value={credentials.confirmPassword}
-                  onChangeText={(value) => handleInputChange('confirmPassword', value)}
-                  placeholder="Confirm your password"
-                  secureTextEntry={!showConfirmPassword}
-                  className={`w-full px-4 py-4 border rounded-xl text-gray-900 pr-12 ${
-                    fieldErrors.confirmPassword ? 'border-red-500' : 'border-gray-300'
-                  }`}
-                  placeholderTextColor="#9CA3AF"
-                />
-                <TouchableOpacity
-                  onPress={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-4 top-4"
-                >
-                  <Ionicons 
-                    name={showConfirmPassword ? 'eye-off-outline' : 'eye-outline'} 
-                    size={20} 
-                    color="#9CA3AF" 
-                  />
-                </TouchableOpacity>
-              </View>
-              {fieldErrors.confirmPassword ? (
-                <Text className="text-red-500 text-sm mt-1">{fieldErrors.confirmPassword}</Text>
-              ) : null}
-            </View>
 
-            {/* Error Message */}
-            {error ? (
-              <View className="bg-red-50 border border-red-200 rounded-xl p-4 mb-6">
-                <Text className="text-red-700 text-center">{error}</Text>
-              </View>
-            ) : null}
 
-            {/* Register Button */}
-            <TouchableOpacity
-              onPress={handleRegister}
-              disabled={isLoading}
-              className={`w-full py-4 rounded-xl items-center justify-center ${
-                isLoading ? 'bg-gray-400' : 'bg-blue-600'
-              }`}
+
+
+
+
+
+
+    return (
+        <SafeAreaView className={`flex-1 ${isDark ? 'bg-gray-900' : 'bg-white'}`}>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                className="flex-1"
             >
-              {isLoading ? (
-                <ActivityIndicator color="white" size="small" />
-              ) : (
-                <Text className="text-white font-semibold text-lg">Create Account</Text>
-              )}
-            </TouchableOpacity>
+                <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+                    {/* Header */}
+                    <View className="px-6 pt-8 pb-4">
+                        <TouchableOpacity
+                            onPress={() => router.back()}
+                            className={`w-10 h-10 rounded-full ${isDark ? 'bg-gray-800' : 'bg-gray-100'} items-center justify-center mb-6`}
+                        >
+                            <Ionicons name="arrow-back" size={20} color={isDark ? '#D1D5DB' : '#374151'} />
+                        </TouchableOpacity>
 
-            {/* Terms */}
-            <Text className="text-gray-500 text-sm text-center mt-4 mb-6">
-              By creating an account, you agree to our{' '}
-              <Text className="text-blue-600">Terms of Service</Text> and{' '}
-              <Text className="text-blue-600">Privacy Policy</Text>
-            </Text>
+                        <Text className={`text-3xl font-bold ${isDark ? 'text-white' : 'text-gray-900'} mb-2`}>
+                            {t('register.title')}
+                        </Text>
+                        <Text className={`${isDark ? 'text-gray-300' : 'text-gray-600'} text-lg`}>
+                            {t('register.subtitle')}
+                        </Text>
+                    </View>
 
-            {/* Sign In Link */}
-            <View className="flex-row justify-center">
-              <Text className="text-gray-600">Already have an account? </Text>
-              <TouchableOpacity onPress={() => router.push('/login')}>
-                <Text className="text-blue-600 font-medium">Sign In</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
-  );
+                    {/* Form */}
+                    <View className="px-6 mt-4">
+                        {/* Name Input */}
+                        <Custom_Input
+                            label={t('register.form.name')}
+                            value={formik.values.name}
+                            onChangeText={formik.handleChange('name')}
+                            onBlur={formik.handleBlur('name')}
+                            error={formik.touched.name && formik.errors.name}
+                            placeholder={t('register.form.namePlaceholder')}
+                            icon={<Ionicons name="person-outline" size={20} color="#9CA3AF" />}
+                        />
+
+                        {/* Email Input */}
+                        <Custom_Input
+                            label={t('register.form.email')}
+                            value={formik.values.email}
+                            onChangeText={formik.handleChange('email')}
+                            onBlur={formik.handleBlur('email')}
+                            error={formik.touched.email && formik.errors.email}
+                            placeholder={t('register.form.emailPlaceholder')}
+                            keyboardType="email-address"
+                            autoCapitalize="none"
+                            icon={<Ionicons name="mail-outline" size={20} color="#9CA3AF" />}
+                        />
+
+                        {/* Password Input */}
+                        <Custom_Input
+                            label={t('register.form.password')}
+                            value={formik.values.password}
+                            onChangeText={formik.handleChange('password')}
+                            onBlur={formik.handleBlur('password')}
+                            error={formik.touched.password && formik.errors.password}
+                            placeholder={t('register.form.passwordPlaceholder')}
+                            isPassword={true}
+                            icon={<Ionicons name="lock-closed-outline" size={20} color="#9CA3AF" />}
+                        />
+
+                      
+
+                        
+                       
+
+
+                        {/* Role Selection */}
+                        {/* <View className="mb-6">
+                            <Text className={`${isDark ? 'text-gray-200' : 'text-gray-700'} font-medium mb-2`}>
+                                {t('register.form.roleLabel')}
+                            </Text>
+                            <View className="flex-row space-x-3">
+                                <TouchableOpacity
+                                    onPress={() => formik.setFieldValue('role', 'client')}
+                                    className={`flex-1 p-4 border rounded-xl mx-1 items-center ${
+                                        formik.values.role === 'client'
+                                            ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
+                                            : (isDark ? 'border-gray-600' : 'border-gray-300')
+                                    }`}
+                                >
+                                    <Ionicons
+                                        name="briefcase-outline"
+                                        size={24}
+                                        color={formik.values.role === 'client' ? '#3B82F6' : '#9CA3AF'}
+                                    />
+                                    <Text className={`mt-2 font-medium ${
+                                        formik.values.role === 'client' 
+                                            ? 'text-blue-600' 
+                                            : (isDark ? 'text-gray-300' : 'text-gray-600')
+                                    }`}>
+                                        {t('register.form.roleClient')}
+                                    </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    onPress={() => formik.setFieldValue('role', 'freelancer')}
+                                    className={`flex-1 p-4 border rounded-xl mx-1 items-center ${
+                                        formik.values.role === 'freelancer'
+                                            ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
+                                            : (isDark ? 'border-gray-600' : 'border-gray-300')
+                                    }`}
+                                >
+                                    <Ionicons
+                                        name="laptop-outline"
+                                        size={24}
+                                        color={formik.values.role === 'freelancer' ? '#3B82F6' : '#9CA3AF'}
+                                    />
+                                    <Text className={`mt-2 font-medium ${
+                                        formik.values.role === 'freelancer' 
+                                            ? 'text-blue-600' 
+                                            : (isDark ? 'text-gray-300' : 'text-gray-600')
+                                    }`}>
+                                        {t('register.form.roleFreelancer')}
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View> */}
+
+                        {/* Register Button */}
+                        <TouchableOpacity
+                            onPress={() => formik.handleSubmit()}
+                            disabled={isLoading || !formik.isValid}
+                            className={`w-full py-4 rounded-xl items-center justify-center mb-6 ${
+                                isLoading || !formik.isValid 
+                                    ? (isDark ? 'bg-gray-600' : 'bg-gray-400') 
+                                    : 'bg-blue-600'
+                            }`}
+                        >
+                            {isLoading ? (
+                                <ActivityIndicator color="white" size="small" />
+                            ) : (
+                                <Text className="text-white font-semibold text-lg">
+                                    {t('register.createAccount')}
+                                </Text>
+                            )}
+                        </TouchableOpacity>
+
+                        {/* Terms */}
+                        <Text className={`text-sm text-center mb-6 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
+                            {t('register.terms.byCreating')}{' '}
+                            <Text className="text-blue-600">{t('register.terms.termsOfService')}</Text> {t('register.terms.and')}{' '}
+                            <Text className="text-blue-600">{t('register.terms.privacyPolicy')}</Text>
+                        </Text>
+
+                        {/* Sign In Link */}
+                        <View className="flex-row justify-center mb-6">
+                            <Text className={`${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                                {t('register.haveAccount')} 
+                            </Text>
+                            <TouchableOpacity onPress={() => router.push('/login')}>
+                                <Text className="text-blue-600 font-medium">{t('register.signIn')}</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </ScrollView>
+            </KeyboardAvoidingView>
+        </SafeAreaView>
+    );
 }

@@ -69,5 +69,200 @@
     "english": "English",
     "arabic": "العربية",
     "change": "تغيير اللغة"
+  },
+  "register": {
+    "title": "إنشاء حساب",
+    "subtitle": "انضم إلى مجتمع المستقلين لدينا",
+    "form": {
+      "name": "الاسم الكامل",
+      "namePlaceholder": "أدخل اسمك الكامل",
+      "email": "عنوان البريد الإلكتروني", 
+      "emailPlaceholder": "أدخل بريدك الإلكتروني",
+      "password": "كلمة المرور",
+      "passwordPlaceholder": "أنشئ كلمة مرور",
+      "confirmPassword": "تأكيد كلمة المرور",
+      "confirmPasswordPlaceholder": "أكد كلمة المرور",
+      "roleLabel": "أريد أن",
+      "roleClient": "أوظف المستقلين",
+      "roleFreelancer": "أعمل كمستقل"
+    },
+    "createAccount": "إنشاء حساب",
+    "haveAccount": "لديك حساب بالفعل؟ ",
+    "signIn": "تسجيل الدخول",
+    "terms": {
+      "byCreating": "من خلال إنشاء حساب، فإنك توافق على",
+      "termsOfService": "شروط الخدمة",
+      "and": "و",
+      "privacyPolicy": "سياسة الخصوصية"
+    },
+    "success": {
+      "title": "نجح",
+      "message": "تم إنشاء الحساب بنجاح!"
+    },
+    "error": {
+      "title": "فشل التسجيل",
+      "message": "فشل في إنشاء الحساب. يرجى المحاولة مرة أخرى."
+    }
+  },
+  "login": {
+    "title": "مرحباً بك مجدداً",
+    "subtitle": "قم بتسجيل الدخول إلى حسابك",
+    "form": {
+      "email": "عنوان البريد الإلكتروني",
+      "emailPlaceholder": "أدخل بريدك الإلكتروني",
+      "password": "كلمة المرور",
+      "passwordPlaceholder": "أدخل كلمة المرور"
+    },
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "signIn": "تسجيل الدخول",
+    "divider": "أو",
+    "social": {
+      "google": "المتابعة مع جوجل",
+      "apple": "المتابعة مع آبل"
+    },
+    "noAccount": "ليس لديك حساب؟ ",
+    "signUp": "إنشاء حساب",
+    "error": {
+      "title": "فشل تسجيل الدخول",
+      "message": "البريد الإلكتروني أو كلمة المرور غير صحيحة. يرجى المحاولة مرة أخرى."
+    }
+  },
+  "addTask": {
+    "title": "نشر مهمة جديدة",
+    "form": {
+      "title": "عنوان المهمة",
+      "titlePlaceholder": "أدخل عنوان المهمة",
+      "description": "الوصف",
+      "descriptionPlaceholder": "اوصف مهمتك بالتفصيل",
+      "type": "نوع العمل",
+      "selectType": "اختر نوع العمل",
+      "location": "الموقع",
+      "locationPlaceholder": "أدخل الموقع أو 'عن بعد'",
+      "budget": "الميزانية (دولار)",
+      "budgetPlaceholder": "أدخل الميزانية",
+      "duration": "المدة",
+      "durationPlaceholder": "مثلاً: أسبوع واحد، شهرين"
+    },
+    "postTask": "نشر المهمة",
+    "posting": "جاري النشر...",
+    "success": {
+      "title": "نجح",
+      "message": "تم نشر المهمة بنجاح!"
+    },
+    "error": {
+      "title": "خطأ",
+      "message": "فشل في نشر المهمة. يرجى المحاولة مرة أخرى."
+    }
+  },
+  "validation": {
+    "nameRequired": "الاسم مطلوب",
+    "nameMin": "يجب أن يكون الاسم على الأقل حرفين",
+    "emailRequired": "البريد الإلكتروني مطلوب",
+    "emailInvalid": "تنسيق البريد الإلكتروني غير صحيح",
+    "passwordRequired": "كلمة المرور مطلوبة",
+    "passwordMin": "يجب أن تكون كلمة المرور على الأقل 6 أحرف",
+    "confirmPasswordRequired": "يرجى تأكيد كلمة المرور",
+    "passwordMatch": "كلمات المرور غير متطابقة",
+    "roleRequired": "يرجى اختيار دور",
+    "titleRequired": "عنوان المهمة مطلوب",
+    "titleMin": "يجب أن يكون العنوان على الأقل 3 أحرف",
+    "descriptionRequired": "الوصف مطلوب",
+    "descriptionMin": "يجب أن يكون الوصف على الأقل 10 أحرف",
+    "typeRequired": "يرجى اختيار نوع العمل",
+    "locationRequired": "الموقع مطلوب",
+    "budgetRequired": "الميزانية مطلوبة",
+    "budgetMin": "يجب أن تكون الميزانية أكبر من 0",
+    "durationRequired": "المدة مطلوبة"
+  },
+  "notifications": {
+    "title": "الإشعارات",
+    "markAllRead": "تحديد الكل كمقروء",
+    "unreadCount": "{{count}} إشعارات غير مقروءة",
+    "empty": {
+      "title": "لا توجد إشعارات",
+      "message": "أنت محدث بالكامل! ستظهر الإشعارات هنا عند وصولها."
+    },
+    "task": {
+      "title": "اقتراح مهمة جديد",
+      "message": "لقد تلقيت اقتراحاً جديداً لمهمة تطوير الويب الخاصة بك."
+    },
+    "message": {
+      "title": "رسالة جديدة",
+      "message": "أرسلت لك سارة جونسون رسالة حول مشروع تطبيق الجوال."
+    },
+    "payment": {
+      "title": "تم استلام الدفع",
+      "message": "لقد تلقيت دفعة بقيمة 500 دولار للمشروع المكتمل."
+    },
+    "system": {
+      "title": "تحديث النظام",
+      "message": "تم تحديث التطبيق بميزات وتحسينات جديدة."
+    }
+  },
+  "tasks": {
+    "title": "المشاريع الأخيرة",
+    "viewAll": "عرض الكل",
+    "budget": "الميزانية",
+    "type": {
+      "remote": "عن بعد",
+      "onSite": "في الموقع"
+    },
+    "empty": {
+      "title": "لا توجد مهام متاحة",
+      "message": "تحقق مرة أخرى لاحقاً للحصول على فرص جديدة"
+    },
+    "error": {
+      "fetchFailed": "فشل في تحميل المهام",
+      "tryAgain": "حاول مرة أخرى"
+    }
+  },
+  "freelancers": {
+    "title": "أفضل المستقلين",
+    "seeAll": "عرض الكل",
+    "empty": {
+      "title": "لا توجد مستقلين متاحين",
+      "message": "تحقق مرة أخرى لاحقاً للحصول على مواهب جديدة"
+    },
+    "error": {
+      "fetchFailed": "فشل في تحميل المستقلين",
+      "tryAgain": "حاول مرة أخرى"
+    }
+  },
+  "explore": {
+    "title": "استكشاف المستقلين",
+    "searchPlaceholder": "البحث عن المستقلين بالمهارة أو الاسم...",
+    "categories": {
+      "all": "الكل",
+      "design": "التصميم",
+      "development": "التطوير",
+      "writing": "الكتابة",
+      "marketing": "التسويق",
+      "video": "الفيديو",
+      "music": "الموسيقى",
+      "translation": "الترجمة"
+    },
+    "freelancer": "مستقل",
+    "reviews": "مراجعات",
+    "verified": "موثق",
+    "unverified": "غير موثق",
+    "type": {
+      "assistant": "مساعد",
+      "client": "عميل"
+    },
+    "contact": "تواصل",
+    "viewProfile": "عرض الملف الشخصي",
+    "empty": {
+      "title": "لم يتم العثور على مستقلين",
+      "message": "حاول تعديل معايير البحث"
+    }
+  },
+  "categories": {
+  "title": "بماذا تحتاج المساعدة؟",
+  "noCategories": "لا توجد فئات متاحة",
+  "errorFetching": "فشل في تحميل الفئات",
+  "retry": "إعادة المحاولة"
+},
+  "common": {
+    "ok": "موافق"
   }
 }

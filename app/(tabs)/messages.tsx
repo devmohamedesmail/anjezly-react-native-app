@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity, ScrollView, TextInput, Image } from 'reac
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import BottomNavigation from '@/components/BottomNavigation';
+import { useTheme } from '@/contexts/ThemeContext';
+import { useTranslation } from 'react-i18next';
 import '../../styles/global.css';
 
 const conversations = [
@@ -46,6 +48,8 @@ const conversations = [
 
 export default function Messages() {
   const [searchText, setSearchText] = useState('');
+  const { isDark } = useTheme();
+  const { t } = useTranslation();
 
   const filteredConversations = conversations.filter(conv =>
     conv.name.toLowerCase().includes(searchText.toLowerCase())
@@ -54,28 +58,34 @@ export default function Messages() {
   const totalUnread = conversations.reduce((sum, conv) => sum + conv.unread, 0);
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50">
+    <SafeAreaView className={`flex-1 ${isDark ? 'bg-gray-900' : 'bg-gray-50'}`}>
       {/* Header */}
-      <View className="bg-white px-6 py-4 shadow-sm">
+      <View className={`px-6 py-4 shadow-sm ${isDark ? 'bg-gray-800' : 'bg-white'}`}>
         <View className="flex-row items-center mb-4">
           <View className="flex-1">
-            <Text className="text-2xl font-bold text-gray-900">Messages</Text>
+            <Text className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+              {t('messages.title')}
+            </Text>
             {totalUnread > 0 && (
-              <Text className="text-gray-600">{totalUnread} unread messages</Text>
+              <Text className={`${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+                {totalUnread} {t('messages.unreadMessages')}
+              </Text>
             )}
           </View>
-          <TouchableOpacity className="bg-gray-100 p-3 rounded-full">
-            <Ionicons name="add" size={20} color="#374151" />
+          <TouchableOpacity className={`p-3 rounded-full ${isDark ? 'bg-gray-700' : 'bg-gray-100'}`}>
+            <Ionicons name="add" size={20} color={isDark ? '#F3F4F6' : '#374151'} />
           </TouchableOpacity>
         </View>
 
         {/* Search Bar */}
-        <View className="bg-gray-100 rounded-xl px-4 py-3 flex-row items-center">
-          <Ionicons name="search" size={20} color="#9CA3AF" />
+        <View className={`rounded-xl px-4 py-3 flex-row items-center ${
+          isDark ? 'bg-gray-700' : 'bg-gray-100'
+        }`}>
+          <Ionicons name="search" size={20} color={isDark ? '#9CA3AF' : '#6B7280'} />
           <TextInput
-            placeholder="Search conversations..."
-            className="flex-1 ml-3 text-gray-700"
-            placeholderTextColor="#9CA3AF"
+            placeholder={t('messages.searchPlaceholder')}
+            className={`flex-1 ml-3 ${isDark ? 'text-white' : 'text-gray-700'}`}
+            placeholderTextColor={isDark ? '#6B7280' : '#9CA3AF'}
             value={searchText}
             onChangeText={setSearchText}
           />
@@ -88,19 +98,27 @@ export default function Messages() {
           <TouchableOpacity className="bg-blue-500 px-4 py-2 rounded-full mr-3">
             <View className="flex-row items-center">
               <Ionicons name="people" size={16} color="white" />
-              <Text className="text-white font-medium ml-2">All</Text>
+              <Text className="text-white font-medium ml-2">{t('messages.filters.all')}</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity className="bg-gray-100 px-4 py-2 rounded-full mr-3">
+          <TouchableOpacity className={`px-4 py-2 rounded-full mr-3 ${
+            isDark ? 'bg-gray-700' : 'bg-gray-100'
+          }`}>
             <View className="flex-row items-center">
-              <Ionicons name="mail-unread" size={16} color="#374151" />
-              <Text className="text-gray-700 font-medium ml-2">Unread ({totalUnread})</Text>
+              <Ionicons name="mail-unread" size={16} color={isDark ? '#F3F4F6' : '#374151'} />
+              <Text className={`font-medium ml-2 ${isDark ? 'text-gray-200' : 'text-gray-700'}`}>
+                {t('messages.filters.unread')} ({totalUnread})
+              </Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity className="bg-gray-100 px-4 py-2 rounded-full mr-3">
+          <TouchableOpacity className={`px-4 py-2 rounded-full mr-3 ${
+            isDark ? 'bg-gray-700' : 'bg-gray-100'
+          }`}>
             <View className="flex-row items-center">
-              <Ionicons name="star" size={16} color="#374151" />
-              <Text className="text-gray-700 font-medium ml-2">Starred</Text>
+              <Ionicons name="star" size={16} color={isDark ? '#F3F4F6' : '#374151'} />
+              <Text className={`font-medium ml-2 ${isDark ? 'text-gray-200' : 'text-gray-700'}`}>
+                {t('messages.filters.starred')}
+              </Text>
             </View>
           </TouchableOpacity>
         </ScrollView>
@@ -109,18 +127,20 @@ export default function Messages() {
       {/* Conversations List */}
       <ScrollView className="flex-1 px-6 pb-20" showsVerticalScrollIndicator={false}>
         {filteredConversations.length === 0 ? (
-          <View className="bg-white rounded-xl p-8 items-center">
-            <Ionicons name="chatbubbles-outline" size={48} color="#9CA3AF" />
-            <Text className="text-gray-500 mt-2 text-center">No conversations found</Text>
-            <Text className="text-gray-400 text-sm mt-1 text-center">
-              {searchText ? 'Try a different search term' : 'Start a new conversation'}
+          <View className={`rounded-xl p-8 items-center ${isDark ? 'bg-gray-800' : 'bg-white'}`}>
+            <Ionicons name="chatbubbles-outline" size={48} color={isDark ? '#6B7280' : '#9CA3AF'} />
+            <Text className={`mt-2 text-center ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
+              {t('messages.empty.title')}
+            </Text>
+            <Text className={`text-sm mt-1 text-center ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>
+              {searchText ? t('messages.empty.searchHint') : t('messages.empty.hint')}
             </Text>
           </View>
         ) : (
           filteredConversations.map((conversation) => (
             <TouchableOpacity
               key={conversation.id}
-              className="bg-white rounded-xl p-4 mb-3 shadow-sm"
+              className={`rounded-xl p-4 mb-3 shadow-sm ${isDark ? 'bg-gray-800' : 'bg-white'}`}
             >
               <View className="flex-row items-center">
                 <View className="relative">
@@ -135,11 +155,11 @@ export default function Messages() {
                 
                 <View className="ml-3 flex-1">
                   <View className="flex-row justify-between items-start mb-1">
-                    <Text className="text-lg font-bold text-gray-900" numberOfLines={1}>
+                    <Text className={`text-lg font-bold ${isDark ? 'text-white' : 'text-gray-900'}`} numberOfLines={1}>
                       {conversation.name}
                     </Text>
                     <View className="flex-row items-center">
-                      <Text className="text-sm text-gray-500 mr-2">
+                      <Text className={`text-sm mr-2 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
                         {conversation.timestamp}
                       </Text>
                       {conversation.unread > 0 && (
@@ -153,7 +173,11 @@ export default function Messages() {
                   </View>
                   
                   <Text 
-                    className={`text-sm ${conversation.unread > 0 ? 'text-gray-900 font-medium' : 'text-gray-600'}`}
+                    className={`text-sm ${
+                      conversation.unread > 0 
+                        ? (isDark ? 'text-white font-medium' : 'text-gray-900 font-medium')
+                        : (isDark ? 'text-gray-300' : 'text-gray-600')
+                    }`}
                     numberOfLines={1}
                   >
                     {conversation.lastMessage}
@@ -161,18 +185,26 @@ export default function Messages() {
                 </View>
               </View>
 
-              <View className="flex-row justify-between items-center mt-3 pt-3 border-t border-gray-100">
+              <View className={`flex-row justify-between items-center mt-3 pt-3 border-t ${
+                isDark ? 'border-gray-700' : 'border-gray-100'
+              }`}>
                 <TouchableOpacity className="flex-row items-center">
-                  <Ionicons name="call-outline" size={16} color="#9CA3AF" />
-                  <Text className="text-gray-600 ml-1 text-sm">Call</Text>
+                  <Ionicons name="call-outline" size={16} color={isDark ? '#9CA3AF' : '#6B7280'} />
+                  <Text className={`ml-1 text-sm ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+                    {t('messages.actions.call')}
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity className="flex-row items-center">
-                  <Ionicons name="videocam-outline" size={16} color="#9CA3AF" />
-                  <Text className="text-gray-600 ml-1 text-sm">Video</Text>
+                  <Ionicons name="videocam-outline" size={16} color={isDark ? '#9CA3AF' : '#6B7280'} />
+                  <Text className={`ml-1 text-sm ${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
+                    {t('messages.actions.video')}
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity className="flex-row items-center">
                   <Ionicons name="chatbubble-outline" size={16} color="#3B82F6" />
-                  <Text className="text-blue-500 ml-1 text-sm font-medium">Reply</Text>
+                  <Text className="text-blue-500 ml-1 text-sm font-medium">
+                    {t('messages.actions.reply')}
+                  </Text>
                 </TouchableOpacity>
               </View>
             </TouchableOpacity>

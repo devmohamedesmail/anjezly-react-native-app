@@ -3,6 +3,10 @@ import { View, Text, TouchableOpacity, ScrollView, Image, Animated } from 'react
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import { config } from '@/constants/config';
+import { useTheme } from '@/contexts/ThemeContext';
+import { useTranslation } from 'react-i18next';
+import Freelancer_Item from './items/freelancer_item';
+import Freelancer_Skeleton from './skeletons/freelancer_skeleton';
 
 interface FreelancerRole {
     id: number;
@@ -107,228 +111,18 @@ interface Freelancer {
     reviews: FreelancerReview[];
 }
 
-interface FreelancersResponse {
-    data: Freelancer[];
-    meta: {
-        pagination: {
-            page: number;
-            pageSize: number;
-            pageCount: number;
-            total: number;
-        };
-    };
-}
 
-// Skeleton component for loading state
-const FreelancerSkeleton = () => {
-    const pulseAnim = new Animated.Value(0);
 
-    React.useEffect(() => {
-        const pulse = () => {
-            Animated.sequence([
-                Animated.timing(pulseAnim, {
-                    toValue: 1,
-                    duration: 1000,
-                    useNativeDriver: true,
-                }),
-                Animated.timing(pulseAnim, {
-                    toValue: 0,
-                    duration: 1000,
-                    useNativeDriver: true,
-                }),
-            ]).start(() => pulse());
-        };
-        pulse();
-    }, []);
-
-    const opacity = pulseAnim.interpolate({
-        inputRange: [0, 1],
-        outputRange: [0.3, 0.7],
-    });
-
-    return (
-        <Animated.View 
-            className="bg-white rounded-xl p-4 mr-4 shadow-sm"
-            style={{ width: 280, opacity }}
-        >
-            <View className="flex-row items-center mb-3">
-                <View className="w-12 h-12 bg-gray-300 rounded-full" />
-                <View className="ml-3 flex-1">
-                    <View className="w-24 h-4 bg-gray-300 rounded mb-2" />
-                    <View className="w-20 h-3 bg-gray-300 rounded" />
-                </View>
-                <View className="items-end">
-                    <View className="w-16 h-4 bg-gray-300 rounded mb-1" />
-                    <View className="w-12 h-3 bg-gray-300 rounded" />
-                </View>
-            </View>
-            <View className="flex-row mb-3">
-                <View className="w-12 h-6 bg-gray-300 rounded-full mr-2" />
-                <View className="w-16 h-6 bg-gray-300 rounded-full mr-2" />
-                <View className="w-14 h-6 bg-gray-300 rounded-full" />
-            </View>
-            <View className="w-full h-10 bg-gray-300 rounded-lg" />
-        </Animated.View>
-    );
-};
 
 // Freelancer item component with animation
-const FreelancerItem = ({ freelancer, index }: { freelancer: Freelancer; index: number }) => {
-    const scaleAnim = new Animated.Value(0);
-    const fadeAnim = new Animated.Value(0);
 
-    useEffect(() => {
-        // Staggered animation entrance
-        Animated.parallel([
-            Animated.spring(scaleAnim, {
-                toValue: 1,
-                delay: index * 150,
-                tension: 100,
-                friction: 8,
-                useNativeDriver: true,
-            }),
-            Animated.timing(fadeAnim, {
-                toValue: 1,
-                delay: index * 150,
-                duration: 300,
-                useNativeDriver: true,
-            }),
-        ]).start();
-    }, []);
-
-    const handlePress = () => {
-        Animated.sequence([
-            Animated.timing(scaleAnim, {
-                toValue: 0.96,
-                duration: 100,
-                useNativeDriver: true,
-            }),
-            Animated.timing(scaleAnim, {
-                toValue: 1,
-                duration: 100,
-                useNativeDriver: true,
-            }),
-        ]).start();
-    };
-
-    const getAvatarUrl = () => {
-        return freelancer.avatar?.formats?.thumbnail?.url || 
-               freelancer.avatar?.formats?.small?.url || 
-               freelancer.avatar?.url ||
-               'https://via.placeholder.com/150/E5E7EB/9CA3AF?text=User';
-    };
-
-    const calculateAverageRating = () => {
-        if (!freelancer.reviews || freelancer.reviews.length === 0) {
-            return { average: 0, count: 0 };
-        }
-        const totalRating = freelancer.reviews.reduce((sum, review) => sum + review.rating, 0);
-        return {
-            average: Math.round((totalRating / freelancer.reviews.length) * 10) / 10,
-            count: freelancer.reviews.length
-        };
-    };
-
-    const { average: avgRating, count: reviewCount } = calculateAverageRating();
-
-    const getDisplayName = () => {
-        if (freelancer.username && freelancer.username !== freelancer.email) {
-            return freelancer.username;
-        }
-        return freelancer.email.split('@')[0];
-    };
-
-    const getSkills = () => {
-        // Since skills aren't in the API data, we'll generate some based on role/type
-        const skillSets = {
-            assistant: ['Virtual Assistant', 'Data Entry', 'Admin Support'],
-            developer: ['React', 'Node.js', 'TypeScript'],
-            designer: ['Figma', 'Photoshop', 'UI/UX'],
-            writer: ['Content Writing', 'SEO', 'Copywriting']
-        };
-        return skillSets[freelancer.type as keyof typeof skillSets] || ['General Services'];
-    };
-
-    return (
-        <Animated.View
-            style={{
-                transform: [{ scale: scaleAnim }],
-                opacity: fadeAnim,
-            }}
-        >
-            <TouchableOpacity
-                className="bg-white rounded-xl p-4 mr-4 shadow-sm"
-                style={{ width: 280 }}
-                onPress={handlePress}
-                activeOpacity={0.8}
-            >
-                <View className="flex-row items-center mb-3">
-                    <View className="relative">
-                        <Image
-                            source={{ uri: getAvatarUrl() }}
-                            className="w-12 h-12 rounded-full"
-                            style={{ backgroundColor: '#E5E7EB' }}
-                        />
-                        {freelancer.confirmed && (
-                            <View className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full items-center justify-center">
-                                <Ionicons name="checkmark" size={10} color="white" />
-                            </View>
-                        )}
-                    </View>
-                    <View className="ml-3 flex-1">
-                        <Text className="text-lg font-bold text-gray-900" numberOfLines={1}>
-                            {getDisplayName()}
-                        </Text>
-                        <Text className="text-gray-600 capitalize" numberOfLines={1}>
-                            {freelancer.type.replace('_', ' ')}
-                        </Text>
-                    </View>
-                    <View className="items-end">
-                        <Text className="text-lg font-bold text-blue-500">$25/hr</Text>
-                        <View className="flex-row items-center">
-                            <Ionicons name="star" size={14} color="#FFA500" />
-                            <Text className="text-sm text-gray-600 ml-1">
-                                {avgRating > 0 ? `${avgRating} (${reviewCount})` : 'New'}
-                            </Text>
-                        </View>
-                    </View>
-                </View>
-
-                <View className="flex-row flex-wrap mb-3">
-                    {getSkills().map((skill, skillIndex) => (
-                        <View key={skillIndex} className="bg-gray-100 px-2 py-1 rounded-full mr-2 mb-1">
-                            <Text className="text-xs text-gray-700">{skill}</Text>
-                        </View>
-                    ))}
-                </View>
-
-                <View className="flex-row items-center mb-3">
-                    <Ionicons name="location-outline" size={14} color="#9CA3AF" />
-                    <Text className="text-sm text-gray-500 ml-1">
-                        {freelancer.phone ? 'Available' : 'Contact for details'}
-                    </Text>
-                    {freelancer.reviews.length > 0 && (
-                        <>
-                            <View className="w-1 h-1 bg-gray-400 rounded-full mx-2" />
-                            <Text className="text-sm text-green-600 font-medium">
-                                {freelancer.reviews.length} review{freelancer.reviews.length !== 1 ? 's' : ''}
-                            </Text>
-                        </>
-                    )}
-                </View>
-
-                <TouchableOpacity className="bg-blue-500 py-3 rounded-lg">
-                    <Text className="text-white font-medium text-center">Contact Now</Text>
-                </TouchableOpacity>
-            </TouchableOpacity>
-        </Animated.View>
-    );
-};
 
 export default function Freelancer_Section() {
     const [freelancers, setFreelancers] = useState<Freelancer[] | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const { isDark } = useTheme();
+    const { t } = useTranslation();
 
     const fetchFreelancers = async () => {
         try {
@@ -346,7 +140,7 @@ export default function Freelancer_Section() {
             
         } catch (error) {
             console.error('Error fetching freelancers:', error);
-            setError('Failed to load freelancers');
+            setError(t('freelancers.error.fetchFailed'));
         } finally {
             setLoading(false);
         }
@@ -358,25 +152,34 @@ export default function Freelancer_Section() {
 
     const renderSkeletons = () => {
         return Array.from({ length: 3 }, (_, index) => (
-            <FreelancerSkeleton key={`skeleton-${index}`} />
+            <Freelancer_Skeleton key={`skeleton-${index}`} />
         ));
     };
 
     const renderFreelancers = () => {
         if (!freelancers || freelancers.length === 0) {
             return (
-                <View className="bg-white rounded-xl p-8 items-center mr-4" style={{ width: 280 }}>
-                    <Ionicons name="people-outline" size={48} color="#9CA3AF" />
-                    <Text className="text-gray-500 mt-2 text-center">No freelancers available</Text>
-                    <Text className="text-gray-400 text-sm mt-1 text-center">
-                        Check back later for new talent
+                <View className={`rounded-xl p-8 items-center mr-4 ${
+                    isDark ? 'bg-gray-800' : 'bg-white'
+                }`} style={{ width: 280 }}>
+                    <Ionicons 
+                        name="people-outline" 
+                        size={48} 
+                        color={isDark ? '#6B7280' : '#9CA3AF'} 
+                    />
+                    <Text className={`mt-2 text-center ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
+                        {t('freelancers.empty.title')}
+                    </Text>
+                    <Text className={`text-sm mt-1 text-center ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>
+                        {t('freelancers.empty.message')}
                     </Text>
                 </View>
             );
         }
 
         return freelancers.map((freelancer, index) => (
-            <FreelancerItem key={freelancer.id} freelancer={freelancer} index={index} />
+           
+            <Freelancer_Item key={freelancer.id} freelancer={freelancer} index={index} />
         ));
     };
 
@@ -384,16 +187,24 @@ export default function Freelancer_Section() {
         return (
             <View className="px-6 pb-6">
                 <View className="flex-row justify-between items-center mb-4">
-                    <Text className="text-xl font-bold text-gray-900">Top Freelancers</Text>
+                    <Text className={`text-xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                        {t('freelancers.title')}
+                    </Text>
                 </View>
-                <View className="bg-red-50 rounded-xl p-6 items-center">
+                <View className={`rounded-xl p-6 items-center ${
+                    isDark ? 'bg-red-900/20 border border-red-800' : 'bg-red-50'
+                }`}>
                     <Ionicons name="alert-circle-outline" size={48} color="#EF4444" />
-                    <Text className="text-red-600 mt-2 text-center font-medium">{error}</Text>
+                    <Text className={`mt-2 text-center font-medium ${
+                        isDark ? 'text-red-400' : 'text-red-600'
+                    }`}>
+                        {error}
+                    </Text>
                     <TouchableOpacity
                         className="bg-red-500 px-6 py-3 rounded-lg mt-4"
                         onPress={fetchFreelancers}
                     >
-                        <Text className="text-white font-medium">Try Again</Text>
+                        <Text className="text-white font-medium">{t('freelancers.error.tryAgain')}</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -403,10 +214,14 @@ export default function Freelancer_Section() {
     return (
         <View className="px-6 pb-6">
             <View className="flex-row justify-between items-center mb-4">
-                <Text className="text-xl font-bold text-gray-900">Top Freelancers</Text>
+                <Text className={`text-xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                    {t('freelancers.title')}
+                </Text>
                 {freelancers && freelancers.length > 0 && (
                     <TouchableOpacity>
-                        <Text className="text-blue-500 font-medium">See All</Text>
+                        <Text className={`font-medium ${isDark ? 'text-blue-400' : 'text-blue-500'}`}>
+                            {t('freelancers.seeAll')}
+                        </Text>
                     </TouchableOpacity>
                 )}
             </View>

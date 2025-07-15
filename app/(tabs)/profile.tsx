@@ -15,6 +15,7 @@ export default function Profile() {
   const { t } = useTranslation();
   const { logout, user, isAuthenticated } = useAuth();
   const { isDark } = useTheme();
+  
 
   const handleMenuPress = async (item: any) => {
     if (item.isDestructive) {
@@ -97,9 +98,9 @@ export default function Profile() {
                 <Ionicons name="camera" size={14} color="white" />
               </TouchableOpacity>
             </View>
-            <Text className={`text-xl font-bold ${isDark ? 'text-white' : 'text-gray-900'} mt-3`}>{user?.name || 'Guest User'}</Text>
+            <Text className={`text-xl font-bold ${isDark ? 'text-white' : 'text-gray-900'} mt-3`}>{user?.username || 'Guest User'}</Text>
             <Text className={`${isDark ? 'text-gray-300' : 'text-gray-600'}`}>
-              {user?.role === 'freelancer' ? t('profile.jobTitle') : 'Client'}
+              {user?.type === 'assistant' ? "Assistant" : 'Client'}
             </Text>
             <View className="flex-row items-center mt-2">
               <View className={`w-2 h-2 rounded-full mr-2 ${isAuthenticated ? 'bg-green-500' : 'bg-gray-400'}`} />
